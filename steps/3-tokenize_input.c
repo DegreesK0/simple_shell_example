@@ -27,8 +27,16 @@ int main(void)
 		printf("$ ");
 		// getting input from the user
 		fgets(input, BUFFER_SIZE, stdin);
-		// getting input from the user
+
+		//
 		input[strlen(input) - 1] = '\0';
+
+		// Creating an exception for the input "exit"
+		if (strncmp(input, "exit", 4) == 0)
+		{
+			printf("Exiting the shell...\n");
+			break;
+		}
 
 		// function called to execute commands
 		parse_and_execute(input);
@@ -37,39 +45,36 @@ int main(void)
 	return (0);
 }
 
-
 /**
  * parse_and_execute - Parse and execute a given input.
  *
  * @command: The commands to execute.
  *
- * Description: Parses the input into tokenized strings then forks a child 
+ * Description: Parases the input into tokenized strings then forks a child
  * process to execute the command and waits for it to complete.
  */
-
 void parse_and_execute(const char *command)
 {
 	char *executable;
-    int i = 0;
-    char *args[64]; // array to hold arguments
-    
-    // Tokenize the input using space as the delimiter 
-    char *token = strtok((char *)command, " ");
-    
-    // Assign each token a place in the array args
-    while (token != NULL)
-    {
-        args[i++] = token;
-        token = strtok(NULL, " ");
-    }
-    // set the item following the last command to NULL, marking the end of arguments
-    args[i] = NULL;
+	int i = 0;
+	char *args[64]; // array to hold arguments
 
-    // Execute your command and give an error if it fails
-    if (execvp(args[0], args) == -1)
-    {
-        perror("Command execution failed");
-        exit(EXIT_FAILURE);
-    }
+	// Tokenize the input using space as the delimiter
+	char *token = strtok((char *)command, " ");
+
+	// Assign each token a place in the array args
+	while (token != NULL)
+	{
+		args[i++] = token;
+		token = strtok(NULL, " ");
+	}
+	// set the item following the last command to NULL, marking the end of arguments
+	args[i] = NULL;
+
+	////*Extra code to print my tokenized input*////
+	for (i = 0; args[i] != NULL; i++)
+	{
+		printf("%s\n",args[i]);
+	}
 
 }

@@ -49,7 +49,7 @@ int main(void)
  *
  * @command: The commands to execute.
  *
- * Description: Parses the input into tokenized strings then forks a child 
+ * Description: Parses the input into tokenized strings then forks a child
  * process to execute the command and waits for it to complete.
  */
 
@@ -63,15 +63,15 @@ void parse_and_execute(const char *command)
 	{
 		perror("Fork failed");
 	}
-	else if (pid == 0) 
+	else if (pid == 0)
 	{
 		/* child process */
 		int i = 0;
 		char *args[64]; // array to hold arguments
-		
-		// Tokenize the input using space as the delimiter 
+
+		// Tokenize the input using space as the delimiter
 		char *token = strtok((char *)command, " ");
-		
+
 		// Assign each token a place in the array args
 		while (token != NULL)
 		{
@@ -92,7 +92,6 @@ void parse_and_execute(const char *command)
 	{
 		/* Parent process */
 		int status;
-
 		waitpid(pid, &status, 0);
 	}
 }
